@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!-- Legal Footnote: This content is subject to copyright and should not be reproduced without permission. -->
 <!-- Written and created by Thomas John-Michael de Beer, feel free to contact me via tjdebeer@gmail.com  -->
 <html lang="en">
@@ -732,6 +732,7 @@ footer i {
   background-color: #45a049;
 }
 
+
 .product-delete-btn-container {
     position: absolute;
     top: 10px;
@@ -758,7 +759,7 @@ footer i {
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .delete-product-btn:hover {
@@ -2029,7 +2030,7 @@ function fetchProducts() {
               Current Price: R${currentPrice}
             </p>
             <form class="bid-form">
-              <input type="number" class="bid-input" placeholder="Enter bid amount" step="0.01" min="${(currentPrice + 100).toFixed(2)}">
+              <input type="number" class="bid-input" placeholder="Enter bid amount" step="0.01" min="${(currentPrice + 0.01).toFixed(2)}">
               <button type="submit" class="bid-button">Bid</button>
             </form>
             <p class="countdown"></p>
