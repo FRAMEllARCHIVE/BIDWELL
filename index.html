@@ -2085,7 +2085,7 @@ function fetchProducts() {
           if (bidAmount > currentPrice) {
             priceElement.textContent = `Current Price: R${bidAmount}`;
             priceElement.setAttribute('data-current-price', bidAmount);
-            bidInput.setAttribute('min', (bidAmount + 100).toFixed(2));
+            bidInput.setAttribute('min', (bidAmount + 0.01).toFixed(2));
 
             feedbackElement.textContent = 'Processing Bid';
             feedbackElement.style.color = 'green';
@@ -2250,7 +2250,7 @@ function refreshPrice(productID) {
                 priceElement.setAttribute('data-current-price', highestBid);
 
                 const bidInput = productCard.querySelector('.bid-input');
-                bidInput.setAttribute('min', highestBid + 100);
+                bidInput.setAttribute('min', highestBid + 0.01);
             }
         })
         .catch(error => {
