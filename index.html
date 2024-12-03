@@ -778,7 +778,7 @@ footer i {
   </style>
 </head>
 <body>
-<img id="banner" src="BIDWELL1.png" alt="BIDWELL Auctions" class="banner">
+<img src="edgehill2.png" alt="BIDWELL Auctions" class="banner">
 
 <span class="favorite-count" style="cursor: pointer;" onclick="EditProfile()">
   <i id="profileIcon" class="fas fa-check"></i>
@@ -971,7 +971,7 @@ window.onload = async function() {
             const contactId = localStorage.getItem('CONTACT_ID');
 
             // const currentUrl = window.location.href;
-            // const targetUrl = 'https://framellarchive.github.io/BIDWELL/';
+            // const targetUrl = 'https://framellarchive.github.io/EDGEHILLGREENS/';
             // if (currentUrl !== targetUrl) {
             //     window.location.href = 'https://www.google.com';
             //     return;
@@ -1170,11 +1170,14 @@ async function AddProduct() {
   overlay.style.display = 'block';
   productForm.style.display = 'block';
 
-  if (banners.length > 0) {
-    const currentTags = banners[currentIndex].tags;
-    currentTags.forEach(tag => addProductTag(tag));
-  }
+  addProductTag('livestock');
 
+  if (currentProvince) {
+    addProductTag(currentProvince);
+  }
+  if (currentCountry) {
+    addProductTag(currentCountry);
+  }
 }
 
 function getListings() {
@@ -1291,14 +1294,14 @@ function getListings() {
                     }, 4444);
                     refreshPrice2(productIDs);
 
-            intervalId = setInterval(() => {
+            intervalId = setInterval(() => { // Initialize intervalId here
                 refreshPrice2(productIDs);
             }, 120000);
 
                 });
 
                 productCard2.querySelector('.favorite').addEventListener('click', function() {
-                    const productURL = `${window.location.origin}/BIDWELL/#${productID1}`;
+                    const productURL = `${window.location.origin}/EDGEHILLGREENS/#${productID1}`;
                     navigator.clipboard.writeText(productURL).then(() => {
                         alert('Link saved to clipboard');
                     }).catch(err => {
@@ -1504,7 +1507,7 @@ function checkPaymentStatus(paymentID, productCard2) {
         if (payments.length === 0) {
             console.log(`No payments found for Merchant Reference ${numericPaymentID}.`);
 
-//temp
+//all temp
             const lockIcon = productCard2.querySelector('.lock-svg');
             const highestBidder = productCard2.querySelector('.highest-bidder');
             const bidderContact = productCard2.querySelector('.bidder-contact');
@@ -1519,7 +1522,7 @@ function checkPaymentStatus(paymentID, productCard2) {
                 if (bidderContact) {
                     bidderContact.style.display = 'block';
                 }
-//temp
+//all temp
 
             return;
         }
@@ -1798,7 +1801,7 @@ document.getElementById('toggleTerms').addEventListener('click', function() {
     termsContent.style.display = 'block';
     toggleButton.textContent = 'Hide Terms & Conditions';
   } else {
-    termsContent.style.display = 'none';
+    termsContent.style.display = 'none'; // Hide the terms
     toggleButton.textContent = 'Show Terms & Conditions';
   }
 });
@@ -1942,10 +1945,6 @@ function removeTag(tagText) {
   fetchProducts();
 }
 
-        function removeAllTags() {
-            tags = [];
-        }
-
 function renderTags() {
   tagContainer.innerHTML = '';
   tags.forEach(tag => {
@@ -1959,7 +1958,33 @@ function renderTags() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  addTags(['livestock']);
+  handleHashChange();
+});
 
+function handleHashChange() {
+    const hash = window.location.hash.substring(1).trim();
+
+    if (hash) {
+        tags = [];
+        addTags([hash]);
+    }
+    renderTags();
+}
+
+window.addEventListener('hashchange', handleHashChange);
+
+function fetchProducts() {
+  if (tags.length === 0) {
+    console.log('No tags. Skipping fetch request.');
+    Array.from(productGrid.children).forEach(child => {
+      if (child.classList.contains('product-card')) {
+        productGrid.removeChild(child);
+      }
+    });
+    return;
+  }
 
   const formattedTags = tags.map(formatTag);
 
@@ -2158,7 +2183,7 @@ function renderTags() {
         });
 
         productCard.querySelector('.favorite').addEventListener('click', function() {
-          const productURL = `${window.location.origin}/BIDWELL/#${productID}`;
+          const productURL = `${window.location.origin}/EDGEHILLGREENS/#${productID}`;
           navigator.clipboard.writeText(productURL)
             .then(() => {
               alert('Link saved to clipboard');
@@ -2304,70 +2329,27 @@ function createFile(llllPDB, productData, moo) {
     return response.json();
   });
 }
+let currentCountry = null;
+let currentProvince = null;
 
-    let currentCountry = null;
-    let currentProvince = null;
-    let banners = [];
-    let currentIndex = 0;
-
-    const bannerElement = document.getElementById('banner');
-
-    async function GeolocationTags() {
-        try {
-            const response = await fetch('https://ipapi.co/json/');
-            if (!response.ok) {
-                throw new Error(`Error fetching location data: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            currentCountry = data.country_name;
-            currentProvince = data.region;
-
-            banners = [
-                { src: 'BIDWELL1.png', tags: ['Livestock', currentCountry, currentProvince] },
-                { src: 'BIDWELL2.png', tags: ['Furniture', currentCountry, currentProvince] },
-                { src: 'BIDWELL3.png', tags: ['Automobiles', currentCountry, currentProvince] },
-                { src: 'BIDWELL4.png', tags: ['Firearms', currentCountry, currentProvince] },
-                { src: 'BIDWELL5.png', tags: ['Antiques', currentCountry, currentProvince] },
-                { src: 'BIDWELL6.png', tags: ['Jewellery', currentCountry, currentProvince] },
-                { src: 'BIDWELL7.png', tags: ['Art', currentCountry, currentProvince] },
-                { src: 'BIDWELL8.png', tags: ['Tools', currentCountry, currentProvince] },
-                { src: 'BIDWELL9.png', tags: [currentCountry, currentProvince] },
-                { src: 'BIDWELL10.png', tags: ['Electronics', currentCountry, currentProvince] }
-            ];
-
-            loadBannerIndex();
-
-            bannerElement.src = banners[currentIndex].src;
-            addTags(banners[currentIndex].tags);
-        } catch (error) {
-            console.error("Failed to fetch geolocation data:", error);
-        }
+async function GeolocationTags() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    if (!response.ok) {
+      throw new Error(`Error fetching location data: ${response.statusText}`);
     }
 
-    function saveBannerIndex() {
-        localStorage.setItem('bannerIndex', currentIndex);
-    }
+    const data = await response.json();
+    currentCountry = data.country_name;
+    currentProvince = data.region; 
+    addTags([currentCountry, currentProvince]);
 
-    function loadBannerIndex() {
-        const savedIndex = localStorage.getItem('bannerIndex');
-        currentIndex = savedIndex !== null ? parseInt(savedIndex, 10) : 0;
-    }
-
-    bannerElement.addEventListener('click', () => {
-        if (banners.length === 0) return;
-
-        currentIndex = (currentIndex + 1) % banners.length;
-        saveBannerIndex();
-
-        bannerElement.src = banners[currentIndex].src;
-        removeAllTags();
-        addTags(banners[currentIndex].tags);
-    });
-
-if (!window.location.hash) {
-    GeolocationTags();
+  } catch (error) {
+    console.error("Failed to fetch geolocation data:", error);
+  }
 }
+
+GeolocationTags();
 
   </script>
 </body>
