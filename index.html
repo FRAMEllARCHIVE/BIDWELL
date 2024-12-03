@@ -1298,7 +1298,7 @@ function getListings() {
                 });
 
                 productCard2.querySelector('.favorite').addEventListener('click', function() {
-                    const productURL = `${window.location.origin}/EDGEHILLGREENS/#${productID1}`;
+                    const productURL = `${window.location.origin}/BIDWELL/#${productID1}`;
                     navigator.clipboard.writeText(productURL).then(() => {
                         alert('Link saved to clipboard');
                     }).catch(err => {
@@ -2183,7 +2183,7 @@ function fetchProducts() {
         });
 
         productCard.querySelector('.favorite').addEventListener('click', function() {
-          const productURL = `${window.location.origin}/EDGEHILLGREENS/#${productID}`;
+          const productURL = `${window.location.origin}/BIDWELL/#${productID}`;
           navigator.clipboard.writeText(productURL)
             .then(() => {
               alert('Link saved to clipboard');
