@@ -1739,14 +1739,6 @@ document.addEventListener('DOMContentLoaded', function() {
   updateProfileIcon();
 });
 
-function EditProfile() {
-      const form = document.getElementById('profileUpdateForm');
-      const overlay2 = document.getElementById('overlay2');
-      form.style.display = 'block';
-      overlay2.style.display = 'block';
-      const currentProfileImageSrc = document.getElementById('profileImage').src;
-      document.getElementById('currentProfileImage').src = currentProfileImageSrc;
-    }
 
 function CloseProfileForm() {
       const form = document.getElementById('profileUpdateForm');
@@ -1880,7 +1872,6 @@ document.addEventListener('DOMContentLoaded', function() {
       imgElement = new Image();
       imgElement.src = newImageSrc;
       imgElement.onload = function() {
-
         canvas = document.createElement('canvas');
         ctx = canvas.getContext('2d');
 
@@ -1894,9 +1885,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const croppedImageSrc = canvas.toDataURL();
         profileImage.src = croppedImageSrc;
-        localStorage.setItem('profileImage', croppedImageSrc); 
+        localStorage.setItem('profileImage', croppedImageSrc);
+
+        EditProfile();
       };
-      EditProfile();
     };
     reader.readAsDataURL(file);
   });
@@ -1904,12 +1896,32 @@ document.addEventListener('DOMContentLoaded', function() {
   saveProfileButton.addEventListener('click', function() {
     if (canvas) {
       const croppedImageSrc = canvas.toDataURL(); 
-      profileImage.src = croppedImageSrc;
       localStorage.setItem('profileImage', croppedImageSrc);
       EditProfile();
     }
   });
 });
+
+function EditProfile() {
+  const form = document.getElementById('profileUpdateForm');
+  const overlay2 = document.getElementById('overlay2');
+  const currentProfileImage = document.getElementById('currentProfileImage');
+
+  form.style.display = 'block';
+  overlay2.style.display = 'block';
+
+  // Ensure to get the profile image from localStorage
+  const savedProfileImage = localStorage.getItem('profileImage');
+  
+  if (savedProfileImage) {
+    // Use the updated image from localStorage
+    currentProfileImage.src = savedProfileImage;
+  } else {
+    // Fallback to the default profile image if no saved image exists
+    currentProfileImage.src = '/path/to/default/image';  // You can change this to a default image path
+  }
+}
+
 
 const searchInput = document.getElementById('search-input');
 const tagContainer = document.getElementById('tag-container');
