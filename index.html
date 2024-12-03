@@ -1910,18 +1910,14 @@ function EditProfile() {
   form.style.display = 'block';
   overlay2.style.display = 'block';
 
-  // Ensure to get the profile image from localStorage
   const savedProfileImage = localStorage.getItem('profileImage');
   
   if (savedProfileImage) {
-    // Use the updated image from localStorage
     currentProfileImage.src = savedProfileImage;
   } else {
-    // Fallback to the default profile image if no saved image exists
-    currentProfileImage.src = '/path/to/default/image';  // You can change this to a default image path
+    currentProfileImage.src = '/path/to/default/image'; 
   }
 }
-
 
 const searchInput = document.getElementById('search-input');
 const tagContainer = document.getElementById('tag-container');
