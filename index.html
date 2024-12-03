@@ -1959,32 +1959,7 @@ function renderTags() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  handleHashChange();
-});
 
-function handleHashChange() {
-    const hash = window.location.hash.substring(1).trim();
-
-    if (hash) {
-        tags = [];
-        addTags([hash]);
-    }
-    renderTags();
-}
-
-window.addEventListener('hashchange', handleHashChange);
-
-function fetchProducts() {
-  if (tags.length === 0) {
-    console.log('No tags. Skipping fetch request.');
-    Array.from(productGrid.children).forEach(child => {
-      if (child.classList.contains('product-card')) {
-        productGrid.removeChild(child);
-      }
-    });
-    return;
-  }
 
   const formattedTags = tags.map(formatTag);
 
@@ -2391,6 +2366,33 @@ function createFile(llllPDB, productData, moo) {
     });
 
     GeolocationTags();
+
+document.addEventListener('DOMContentLoaded', () => {
+  handleHashChange();
+});
+
+function handleHashChange() {
+    const hash = window.location.hash.substring(1).trim();
+
+    if (hash) {
+        tags = [];
+        addTags([hash]);
+    }
+    renderTags();
+}
+
+window.addEventListener('hashchange', handleHashChange);
+
+function fetchProducts() {
+  if (tags.length === 0) {
+    console.log('No tags. Skipping fetch request.');
+    Array.from(productGrid.children).forEach(child => {
+      if (child.classList.contains('product-card')) {
+        productGrid.removeChild(child);
+      }
+    });
+    return;
+  }
   </script>
 </body>
 </html>
