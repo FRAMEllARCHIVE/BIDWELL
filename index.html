@@ -1822,8 +1822,7 @@ document.getElementById('agreeTerms').addEventListener('click', function() {
 document.getElementById('closeModal').addEventListener('click', function() {
   document.getElementById('termsModal').style.display = 'none';
 });
-
-
+
 document.getElementById('deleteProfile').addEventListener('click', function() {
   localStorage.removeItem('OWNER_ID');
   localStorage.removeItem('CONTACT_ID');
@@ -1915,7 +1914,7 @@ function EditProfile() {
   if (savedProfileImage) {
     currentProfileImage.src = savedProfileImage;
   } else {
-    currentProfileImage.src = '/path/to/default/image'; 
+   currentProfileImage.src = 'profile.jpg';
   }
 }
 
