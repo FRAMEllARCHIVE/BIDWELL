@@ -1823,7 +1823,6 @@ document.getElementById('closeModal').addEventListener('click', function() {
   document.getElementById('termsModal').style.display = 'none';
 });
 
-
 document.getElementById('deleteProfile').addEventListener('click', function() {
   localStorage.removeItem('OWNER_ID');
   localStorage.removeItem('CONTACT_ID');
@@ -2146,30 +2145,41 @@ function fetchProducts() {
               contactDetails: contactDetails
             };
 
+            const bidFileName = `${productID1}_${ownerId}_${bidTime}.json`;
+            const bidFileContent = JSON.stringify(bidData, null, 2);
+            const encodedContent = btoa(bidFileContent);
 
+            fetch(`https://api.github.com/repos/${llllDB}/contents/${bidFileName}`, {
+              method: 'PUT',
+              headers: {
+                'Authorization': `token ${moo2}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                message: `Add bid data to ${bidFileName}`,
+                content: encodedContent
+              })
+            })
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(() => {
+              feedbackElement.textContent = 'Bid is being processed and recorded.';
+            })
+            .catch(error => {
+              feedbackElement.textContent = 'Bid processed but failed to record.';
+              feedbackElement.style.color = '#e74c3c';
+              console.error('Error adding bid:', error);
+            });
+          } else {
+            feedbackElement.textContent = 'Bid amount must be higher than the current price.';
+            feedbackElement.style.color = '#e74c3c';
+          }
 
-
-
-
-const bidFileName = `${productID1}_${ownerId}_${bidTime}.json`;
-const bidDataString = JSON.stringify(bidData);
-
-const entryFileName = "1354272229";
-const entryBid = "908877255";
-
-const formUrl = `https://docs.google.com/forms/d/e/1FAIpQLSedXhoMdPFOcsIKw-INyr1TZZkfdr9E7POXo9I3Lvl1c0eQOg/formResponse?entry.${entryFileName}=${encodeURIComponent(bidFileName)}&entry.${entryBid}=${encodeURIComponent(bidDataString)}`;
-
-fetch(formUrl, { method: "POST", mode: "no-cors" })
-  .then(() => {
-    feedbackElement.textContent = "Bid is being processed and recorded.";
-  })
-  .catch(error => {
-    feedbackElement.textContent = "Bid processed but failed to record.";
-    feedbackElement.style.color = "#e74c3c";
-    console.error("Error submitting bid:", error);
-  };
-
-bidInput.value = "";
+          bidInput.value = '';
         });
 
         productCard.querySelector('.refresh-icon').addEventListener('click', function() {
