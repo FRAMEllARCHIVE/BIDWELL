@@ -2167,7 +2167,7 @@ fetch(formUrl, { method: "POST", mode: "no-cors" })
     feedbackElement.textContent = "Bid processed but failed to record.";
     feedbackElement.style.color = "#e74c3c";
     console.error("Error submitting bid:", error);
-  });
+  };
 
 bidInput.value = "";
         });
